@@ -1,0 +1,147 @@
+= MacroPad
+Jordan Williams <jordan@jwillikers.com>
+:experimental:
+:icons: font
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:Adafruit-CircuitPython-MacroPad: https://docs.circuitpython.org/projects/macropad/en/latest/[Adafruit CircuitPython MacroPad]
+:Adafruit-MacroPad-RP2040: https://learn.adafruit.com/adafruit-macropad-rp2040[Adafruit MacroPad RP2040]
+:Asciidoctor_: https://asciidoctor.org/[Asciidoctor]
+:BookBrainz: https://bookbrainz.org/[BookBrainz]
+:MusicBrainz: https://musicbrainz.org/[MusicBrainz]
+:CircuitPython: https://circuitpython.org/[CircuitPython]
+:just: https://github.com/casey/just[just]
+:pip-tools: https://github.com/jazzband/pip-tools[pip-tools]
+:pipkin: https://github.com/aivarannamaa/pipkin[pipkin]
+:pre-commit: https://pre-commit.com/[pre-commit]
+:Python: https://www.python.org/[Python]
+
+The configuration of my {Adafruit-MacroPad-RP2040}.
+It mostly includes macros to speed up adding series works and the like to {BookBrainz} and {MusicBrainz}.
+
+== Getting Started
+
+The instructions here setup the software for the Adafruit MacroPad RP2040.
+It is assumed that you are on and familiar with Linux and using {CircuitPython} on microcontrollers.
+
+[TIP]
+====
+To access the serial connection to the MacroPad RP2040 without requiring superuser privileges, add your user to the `dialout` group.
+
+[,sh]
+----
+sudo usermod --append --groups dialout $USER
+----
+
+Now restart for the change to take effect.
+====
+
+. Install {just} by following the instructions in the https://github.com/casey/just?tab=readme-ov-file#installation[installation section].
+
+. Clone this project's repository.
++
+[,sh]
+----
+git clone https://github.com/jwillikers/macropad.git
+----
+
+. Change to the project's root directory.
++
+[,sh]
+----
+cd macropad
+----
+
+. Push down the rotary encoder on the MacroPad RP2040 while plugging it in to your computer with a USB-C cable or hitting the reset button to enter bootloader mode.
+
+. To download and install CircuitPython, run `just install-circuitpython`.
++
+[,sh]
+----
+just install-circuitpython
+----
+
+. Wait for the file to finish copying, after which the MacroPad RP2040's onboard storage should automatically be mounted.
+This is mounted at `/run/media/jordan/CIRCUITPY` on my machine.
+
+. Run `just init` to initialize the venv.
++
+[,sh]
+----
+just init
+----
+
+. Run `just install` to install everything to the MacroPad.
++
+[,sh]
+----
+just install
+----
+
+== Development
+
+It's recommended to use the provided {pre-commit} checks when developing.
+
+. Run `just init-dev` to initialize the virtual environment for development.
+This will install all of the necessary dependencies and the {pre-commit} hooks.
++
+[,sh]
+----
+just init-dev
+----
+
+. To update dependencies, run `just update`.
++
+[,sh]
+----
+just update
+----
+
+. Use `just --list` to list other available tasks.
++
+[,sh]
+----
+just --list
+----
+
+== Documentation
+
+.CircuitPython Documentation
+* https://circuitpython.readthedocs.io/en/latest/shared-bindings/alarm/index.html[alarm]
+* https://circuitpython.readthedocs.io/en/latest/shared-bindings/neopixel_write/index.html[neopixel_write]
+
+== Contributing
+
+Contributions in the form of issues, feedback, and even pull requests are welcome.
+Make sure to adhere to the project's link:CODE_OF_CONDUCT.adoc[Code of Conduct].
+
+== Open Source Software
+
+This project is built on the hard work of countless open source contributors.
+Several of these projects are enumerated below.
+
+* {Asciidoctor_}
+* {CircuitPython}
+* {pip-tools}
+* {pipkin}
+* {pre-commit}
+* {Python}
+
+== Code of Conduct
+
+Refer to the project's link:CODE_OF_CONDUCT.adoc[Code of Conduct] for details.
+
+== License
+
+This repository is licensed under the https://www.gnu.org/licenses/gpl-3.0.html[GPLv3], a copy of which is provided link:LICENSE.adoc[here].
+
+© 2025 Jordan Williams
+
+== Authors
+
+mailto:{email}[{author}]
