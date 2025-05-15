@@ -97,6 +97,13 @@ TRANSLATED_LANGUAGE = "English"
 
 ORIGINAL_WORK_ALIASES = [
     # The first alias must always be the title for the translated works
+    # Remember to use the appropriate Unicode characters!
+    #
+    # Apostrophe:: ’
+    # Dash:: ‐
+    # Ellipsis:: …
+    # Multiplication Sign:: ×
+    #
     {
         "text": "I’m a Translated Title, Vol. |index|",
         "sort": "COPY",  # Or GUESS
