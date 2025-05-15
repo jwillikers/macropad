@@ -241,6 +241,8 @@ TRANSLATED_BOOKBRAINZ_WORK = {
     ],
 }
 
+TAGS = ["fiction", "light novel"]
+
 ORIGINAL_MUSICBRAINZ_WORK = {
     "title": ORIGINAL_TITLE,
     # {
@@ -260,6 +262,7 @@ ORIGINAL_MUSICBRAINZ_WORK = {
             "credited_as": MUSICBRAINZ_ORIGINAL_WRITER_CREDITED_AS,
         },
     ],
+    "tags": TAGS,
 }
 
 TRANSLATED_MUSICBRAINZ_WORK = {
@@ -284,11 +287,12 @@ TRANSLATED_MUSICBRAINZ_WORK = {
             "role": "Translator",
         },
     ],
+    "tags": TAGS,
 }
 
 MUSICBRAINZ_RELEASE_GROUP = {
     "name": ORIGINAL_WORK_ALIASES[0]["text"],
-    "disambiguation": None,
+    "disambiguation": "light novel, English, unabridged",
     "primary_type": "Other",
     "secondary_type": "Audiobook",
     "series": "",
@@ -302,6 +306,7 @@ MUSICBRAINZ_RELEASE_GROUP = {
             "id": "",
         },
     ],
+    "tags": ["light novel", "unabridged"]
 }
 
 MUSICBRAINZ_RELEASE_GROUP_LINKS = {
@@ -779,6 +784,60 @@ def musicbrainz_add_aliases(macropad, aliases, index=None):
         macropad.keyboard.send(macropad.Keycode.ENTER)
         time.sleep(12)
 
+        # Add the alias
+        macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.A)
+        macropad.keyboard.send(macropad.Keycode.BACKSPACE)
+        time.sleep(0.1)
+
+        if alias["text"] == "PASTE_FROM_CLIPBOARD":
+            paste(macropad)
+            if index:
+                write(macropad, f"{index}")
+        else:
+            write(macropad, alias["text"])
+
+        tab(macropad, 5)
+        macropad.keyboard.send(macropad.Keycode.SPACE)
+        time.sleep(0.1)
+        tab(macropad, 3)
+        # Reset the language list to the beginning as a precaution.
+        macropad.keyboard.send(macropad.Keycode.A)
+        macropad.keyboard.send(macropad.Keycode.TAB)
+        macropad.keyboard.send(macropad.Keycode.SHIFT, macropad.Keycode.TAB)
+        write(macropad, alias["language"])
+        time.sleep(0.1)
+        macropad.keyboard.send(macropad.Keycode.TAB)
+        if alias["primary"]:
+            macropad.keyboard.send(macropad.Keycode.SPACE)
+        tab(macropad, 2)
+        write(macropad, "Work name")
+        macropad.keyboard.send(macropad.Keycode.TAB)
+        macropad.keyboard.send(macropad.Keycode.ENTER)
+        time.sleep(12)
+
+        if alias_index < len(aliases) - 1:
+            # Remove the /aliases part at the end of the URL in the URL bar
+            macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.L)
+            time.sleep(0.1)
+            macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.RIGHT_ARROW)
+            time.sleep(0.1)
+            for _ in range(8):
+                macropad.keyboard.send(macropad.Keycode.BACKSPACE)
+
+
+# This is done after a work has been created
+def musicbrainz_add_tags(macropad, tags, index=None):
+    macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.L)
+    time.sleep(0.1)
+    macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.RIGHT_ARROW)
+    time.sleep(0.2)
+    write(macropad, "/tags")
+    time.sleep(0.2)
+    macropad.keyboard.send(macropad.Keycode.ESCAPE)
+    time.sleep(0.1)
+    macropad.keyboard.send(macropad.Keycode.ENTER)
+    time.sleep(12)
+    for alias_index, alias in enumerate(aliases):
         # Add the alias
         macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.A)
         macropad.keyboard.send(macropad.Keycode.BACKSPACE)
