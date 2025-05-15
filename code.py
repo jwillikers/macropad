@@ -188,10 +188,16 @@ ORIGINAL_BOOKBRAINZ_WORK = {
     "disambiguation": ORIGINAL_WORK_DISAMBIGUATION_COMMENT,
     "aliases": ORIGINAL_WORK_ALIASES,
     "series": BOOKBRAINZ_ORIGINAL_WORK_SERIES,
-    "relationships": {
-        "writer": BOOKBRAINZ_WRITER,
-        "illustrator": BOOKBRAINZ_ILLUSTRATOR,
-    },
+    "relationships": [
+        {
+            "role": "writer",
+            "id": BOOKBRAINZ_WRITER,
+        },
+        {
+            "role": "illustrator",
+            "id": BOOKBRAINZ_ILLUSTRATOR,
+        },
+    ],
 }
 
 TRANSLATED_BOOKBRAINZ_WORK = {
@@ -200,13 +206,32 @@ TRANSLATED_BOOKBRAINZ_WORK = {
     "language": TRANSLATED_LANGUAGE,
     "disambiguation": TRANSLATED_WORK_DISAMBIGUATION_COMMENT,
     "series": BOOKBRAINZ_TRANSLATED_WORK_SERIES,
-    "relationships": {
-        "writer": BOOKBRAINZ_WRITER,
-        "illustrator": BOOKBRAINZ_ILLUSTRATOR,
-        "translator": BOOKBRAINZ_TRANSLATOR,
-        "adapter": BOOKBRAINZ_ADAPTER,
-        "letterer": BOOKBRAINZ_LETTERER,
-    },
+    "relationships": [
+        {
+            "role": "writer",
+            "id": BOOKBRAINZ_WRITER,
+        },
+        {
+            "role": "illustrator",
+            "id": BOOKBRAINZ_ILLUSTRATOR,
+        },
+        {
+            "role": "translator",
+            "id": BOOKBRAINZ_TRANSLATOR,
+        },
+        {
+            "role": "translator",
+            "id": "a1a64969-18ce-4925-bae8-c56963693858",
+        },
+        {
+            "role": "adapter",
+            "id": BOOKBRAINZ_ADAPTER,
+        },
+        {
+            "role": "letterer",
+            "id": BOOKBRAINZ_LETTERER,
+        },
+    ],
 }
 
 ORIGINAL_MUSICBRAINZ_WORK = {
@@ -244,6 +269,11 @@ TRANSLATED_MUSICBRAINZ_WORK = {
         },
         {
             "id": MUSICBRAINZ_TRANSLATOR,
+            "credited_as": "Hye Young Im",
+            "role": "Translator",
+        },
+        {
+            "id": "985282e2-f33d-4e56-9344-be630f3bda54",
             "role": "Translator",
         },
     ],
@@ -557,18 +587,20 @@ BOOKBRAINZ_RELATIONSHIP_VERB = {
 }
 
 
-def bookbrainz_add_relationship(macropad, relationship, id):
+def bookbrainz_add_relationship(macropad, relationship):
+    if "id" not in relationship or not relationship["id"] or "role" not in relationship or not relationship["role"]:
+        return
     macropad.keyboard.send(macropad.Keycode.SPACE)
     time.sleep(0.75)
     macropad.keyboard.send(macropad.Keycode.TAB)
     time.sleep(0.1)
-    if id == "PASTE_FROM_CLIPBOARD":
+    if relationship["id"] == "PASTE_FROM_CLIPBOARD":
         paste(macropad)
     else:
-        write(macropad, id)
+        write(macropad, relationship["id"])
     time.sleep(1)
     tab(macropad, 3)
-    write(macropad, BOOKBRAINZ_RELATIONSHIP_VERB[relationship.lower()])
+    write(macropad, BOOKBRAINZ_RELATIONSHIP_VERB[relationship["role"].lower()])
     time.sleep(0.1)
     macropad.keyboard.send(macropad.Keycode.ENTER)
     time.sleep(0.6)
@@ -637,9 +669,9 @@ def bookbrainz_create_work(macropad, work, index):
     if "series" in work and work["series"]:
         bookbrainz_add_series(macropad, work["series"], index)
     if "relationships" in work:
-        for relationship, relation in work["relationships"].items():
-            if relation:
-                bookbrainz_add_relationship(macropad, relationship, relation)
+        for relationship in work["relationships"]:
+            if relationship:
+                bookbrainz_add_relationship(macropad, relationship)
 
     # Submit the work
     tab(macropad, 5)
@@ -1001,7 +1033,10 @@ while True:
 
                     translated_work = TRANSLATED_BOOKBRAINZ_WORK
                     translated_work["identifiers"] = translated_identifiers
-                    translated_work["relationships"]["translation"] = "PASTE_FROM_CLIPBOARD"
+                    translated_work["relationships"].append({
+                        "role": "translation",
+                        "id": "PASTE_FROM_CLIPBOARD",
+                    })
 
                     bookbrainz_create_work(macropad, translated_work, i)
 
