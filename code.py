@@ -826,57 +826,57 @@ def musicbrainz_add_aliases(macropad, aliases, index=None):
 
 
 # This is done after a work has been created
-def musicbrainz_add_tags(macropad, tags, index=None):
-    macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.L)
-    time.sleep(0.1)
-    macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.RIGHT_ARROW)
-    time.sleep(0.2)
-    write(macropad, "/tags")
-    time.sleep(0.2)
-    macropad.keyboard.send(macropad.Keycode.ESCAPE)
-    time.sleep(0.1)
-    macropad.keyboard.send(macropad.Keycode.ENTER)
-    time.sleep(12)
-    for alias_index, alias in enumerate(aliases):
-        # Add the alias
-        macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.A)
-        macropad.keyboard.send(macropad.Keycode.BACKSPACE)
-        time.sleep(0.1)
+# def musicbrainz_add_tags(macropad, tags, index=None):
+#     macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.L)
+#     time.sleep(0.1)
+#     macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.RIGHT_ARROW)
+#     time.sleep(0.2)
+#     write(macropad, "/tags")
+#     time.sleep(0.2)
+#     macropad.keyboard.send(macropad.Keycode.ESCAPE)
+#     time.sleep(0.1)
+#     macropad.keyboard.send(macropad.Keycode.ENTER)
+#     time.sleep(12)
+#     for alias_index, alias in enumerate(aliases):
+#         # Add the alias
+#         macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.A)
+#         macropad.keyboard.send(macropad.Keycode.BACKSPACE)
+#         time.sleep(0.1)
 
-        if alias["text"] == "PASTE_FROM_CLIPBOARD":
-            paste(macropad)
-            if index:
-                write(macropad, f"{index}")
-        else:
-            write(macropad, alias["text"])
+#         if alias["text"] == "PASTE_FROM_CLIPBOARD":
+#             paste(macropad)
+#             if index:
+#                 write(macropad, f"{index}")
+#         else:
+#             write(macropad, alias["text"])
 
-        tab(macropad, 5)
-        macropad.keyboard.send(macropad.Keycode.SPACE)
-        time.sleep(0.1)
-        tab(macropad, 3)
-        # Reset the language list to the beginning as a precaution.
-        macropad.keyboard.send(macropad.Keycode.A)
-        macropad.keyboard.send(macropad.Keycode.TAB)
-        macropad.keyboard.send(macropad.Keycode.SHIFT, macropad.Keycode.TAB)
-        write(macropad, alias["language"])
-        time.sleep(0.1)
-        macropad.keyboard.send(macropad.Keycode.TAB)
-        if alias["primary"]:
-            macropad.keyboard.send(macropad.Keycode.SPACE)
-        tab(macropad, 2)
-        write(macropad, "Work name")
-        macropad.keyboard.send(macropad.Keycode.TAB)
-        macropad.keyboard.send(macropad.Keycode.ENTER)
-        time.sleep(12)
+#         tab(macropad, 5)
+#         macropad.keyboard.send(macropad.Keycode.SPACE)
+#         time.sleep(0.1)
+#         tab(macropad, 3)
+#         # Reset the language list to the beginning as a precaution.
+#         macropad.keyboard.send(macropad.Keycode.A)
+#         macropad.keyboard.send(macropad.Keycode.TAB)
+#         macropad.keyboard.send(macropad.Keycode.SHIFT, macropad.Keycode.TAB)
+#         write(macropad, alias["language"])
+#         time.sleep(0.1)
+#         macropad.keyboard.send(macropad.Keycode.TAB)
+#         if alias["primary"]:
+#             macropad.keyboard.send(macropad.Keycode.SPACE)
+#         tab(macropad, 2)
+#         write(macropad, "Work name")
+#         macropad.keyboard.send(macropad.Keycode.TAB)
+#         macropad.keyboard.send(macropad.Keycode.ENTER)
+#         time.sleep(12)
 
-        if alias_index < len(aliases) - 1:
-            # Remove the /aliases part at the end of the URL in the URL bar
-            macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.L)
-            time.sleep(0.1)
-            macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.RIGHT_ARROW)
-            time.sleep(0.1)
-            for _ in range(8):
-                macropad.keyboard.send(macropad.Keycode.BACKSPACE)
+#         if alias_index < len(aliases) - 1:
+#             # Remove the /aliases part at the end of the URL in the URL bar
+#             macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.L)
+#             time.sleep(0.1)
+#             macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.RIGHT_ARROW)
+#             time.sleep(0.1)
+#             for _ in range(8):
+#                 macropad.keyboard.send(macropad.Keycode.BACKSPACE)
 
 
 def musicbrainz_create_work(macropad, work, index):
