@@ -4,9 +4,9 @@
 #
 #    pip-compile --allow-unsafe --generate-hashes requirements.in
 #
-adafruit-blinka==8.55.0 \
-    --hash=sha256:19325f4e6a734317b4719fdeebe71989ad302a09051585841fd01ff75da06498 \
-    --hash=sha256:e0ca57af1cc7df83f65078de7a8f65746fcb00b92584db6ca6e6ff7de0ad6140
+adafruit-blinka==8.58.1 \
+    --hash=sha256:d26dde6b59747aba1944b2ac9db58f97bb8ca891eddacf90deacd9b4aba1190c \
+    --hash=sha256:e685474308d8c9111f4d492113d67a0c808f83c712ba3f2dc7895df782e00355
     # via
     #   adafruit-blinka-displayio
     #   adafruit-circuitpython-bitmap-font
@@ -23,67 +23,67 @@ adafruit-blinka==8.55.0 \
     #   adafruit-circuitpython-simple-text-display
     #   adafruit-circuitpython-ticks
     #   adafruit-circuitpython-typing
-adafruit-blinka-displayio==2.1.7 \
-    --hash=sha256:4a98bbcab021c6231bb15ed4291ded513c7ec479f11dc7c1a798048bba5aab84 \
-    --hash=sha256:fa5f466045eaf0ef47f1b20b74930eee368406adf4bc883512681ade061687b9
+adafruit-blinka-displayio==2.2.0 \
+    --hash=sha256:aaeda4dc1afe10bb48b7e4fe848471310fb2f3aee166ccd97a91aa2ed7162ed8 \
+    --hash=sha256:e8e02fbd66646e6ebbc98422e2d9cc0ad1d7b45eca7a0a5546cddc4308bc2419
     # via
     #   adafruit-circuitpython-bitmap-font
     #   adafruit-circuitpython-display-text
-adafruit-circuitpython-bitmap-font==2.1.4 \
-    --hash=sha256:0180931799c6340f76d13965b4905215e955b18baf073446fe8c06aa51607e6b \
-    --hash=sha256:64f24b82133e4dd3221438252543c7001ca6e835c70f8f9e3b32bbf344912942
+adafruit-circuitpython-bitmap-font==2.3.0 \
+    --hash=sha256:6caf184224a5c9fe684c4e0729d463cafe6cca992eb599ccffadf1c7ff88316f \
+    --hash=sha256:fab5b8af0ea933de94c59ea1a069211d6619ec480a29a9b1ff3249bca8354392
     # via
     #   adafruit-blinka-displayio
     #   adafruit-circuitpython-display-text
-adafruit-circuitpython-busdevice==5.2.11 \
-    --hash=sha256:a9a1310bee7021703ccc247bb3ff04d0873573948a6c7bee9016361cd6707a71 \
-    --hash=sha256:d4379c9ae86a15f7044dea815a94525ca9eda6a7c0b2fa0e75cf9e700c9384b8
+adafruit-circuitpython-busdevice==5.2.12 \
+    --hash=sha256:61d85ce691f4336f867cdcfa741550422e9df86be880b1b6145d29273de77ff3 \
+    --hash=sha256:998db37953d522c241240adab066be2df3e320921b03a11fef63f83b4a0b53c6
     # via adafruit-circuitpython-typing
-adafruit-circuitpython-connectionmanager==3.1.3 \
-    --hash=sha256:0f133bdedf454ede0c0a866ed605fe166cc85f75cfcea74758e3622ae403e5f9 \
-    --hash=sha256:9df3a4c617dae27bad1ac8607f1a084312c8498d831ebe1c6a2c8d5cb309daea
+adafruit-circuitpython-connectionmanager==3.1.4 \
+    --hash=sha256:3b2434edd07c1efed96c799c7883163aa2641823a8609dda77fd8fb4ae3602ca \
+    --hash=sha256:b9b3d79a243abee9dd1ddfd0b4d1a7e658635dcd728ba05e00131d9bffdffa8e
     # via adafruit-circuitpython-requests
-adafruit-circuitpython-debouncer==2.0.10 \
-    --hash=sha256:2e73143949d7ae97e8dcd07953473323da2c0c0af1ef2bff249fe83cb81cac10 \
-    --hash=sha256:af903ebd6918b668d5ace55afae6c335fda88dcdff112906252311c6a5853d7d
+adafruit-circuitpython-debouncer==2.0.11 \
+    --hash=sha256:8eabd499a8a75aea9a49eefaa8088f8ea731e23d29d90448e45629e1cb9b18c7 \
+    --hash=sha256:baeba48900e05bf6defa25d871487c6a91c4642d21907e20317fc294fd542417
     # via adafruit-circuitpython-macropad
-adafruit-circuitpython-display-text==3.2.3 \
-    --hash=sha256:1aa3d3c0fe8934859ab0ee0769d86d576b2c8ec7c2e3f4432329aa37c22571c2 \
-    --hash=sha256:bbe279b72b7e05820777e38f44e466127a3668bf561c7d11121e9324f19fc500
+adafruit-circuitpython-display-text==3.2.4 \
+    --hash=sha256:14eb62817b16dc3ec05980257db6eafa896bd380dce911d0a5a80fd48a0051af \
+    --hash=sha256:af11202baab20598b02667483f57cf1a0e24c9a5e7ea7cb6c06d62bb273a8968
     # via
     #   adafruit-circuitpython-macropad
     #   adafruit-circuitpython-simple-text-display
-adafruit-circuitpython-hid==6.1.5 \
-    --hash=sha256:3b9f1f9495439dbdb3f875396ffd7d4cea8ebfd4cf0e9688921bb4718031f2e9 \
-    --hash=sha256:dacec8e7ff3c44c43d791a0bf15939727a94a0cf68b2e32c7dde5d55c3416b2d
+adafruit-circuitpython-hid==6.1.6 \
+    --hash=sha256:3cd4458c8cf558502d80944981a73624770984658dc6d1c90fc85fce15b19abe \
+    --hash=sha256:fbbd235626ec25e66c159de62c1fa75c95b3ef94d5be6d2f94508f7a18424816
     # via adafruit-circuitpython-macropad
-adafruit-circuitpython-macropad==2.4.2 \
-    --hash=sha256:7fdb5aea1d414e6ac469a33d3bd0f677b1809f383f27a0ec9399781dd35d117b \
-    --hash=sha256:853397da9721786d4c4cb69e4b01f6e113941a9b973ed01e6583432e856e46df
+adafruit-circuitpython-macropad==2.4.3 \
+    --hash=sha256:aae2fdd13d5a00c17a911f2505db4365082a4148e0e5266cf2f809dc65fa0888 \
+    --hash=sha256:d052d37fd490f937722ad991620681b31f35ba85254c04cefbdb679b7c6c3534
     # via -r requirements.in
-adafruit-circuitpython-midi==1.5.3 \
-    --hash=sha256:8880e338354a873f95b4cfadcff51c4f94f1d680d32d5e827fc424e016cae09d \
-    --hash=sha256:c485cb2ac6d3435156476c1cd2f7691c6b7e79c50f64f98c84644ce3a28d1f26
+adafruit-circuitpython-midi==1.5.4 \
+    --hash=sha256:bf969ec1108b2fa063df35642bd19264bb27e6bfa47f6f50325cc71d6da73c4a \
+    --hash=sha256:e07077147a02b19556a8f4f8f4a0d3db288f17e1459ad5fa7c05cfc61956d728
     # via adafruit-circuitpython-macropad
-adafruit-circuitpython-neopixel==6.3.15 \
-    --hash=sha256:290495e8059cc641be9ad00c2808fb40e5494d50d0016def64b8cc6642b07283 \
-    --hash=sha256:c34c40bf602aead9987d22be50e056dec350e04b158750e3130801510d113b81
+adafruit-circuitpython-neopixel==6.3.16 \
+    --hash=sha256:04fc474f121e13099190450ce8b2ec2b5bdbb8b3c36445dae5d981ca25604565 \
+    --hash=sha256:c37cdcb976e693e742b34b49482bf035cd5e07552ce22e7b3e4073f416ad11c4
     # via adafruit-circuitpython-macropad
-adafruit-circuitpython-pixelbuf==2.0.7 \
-    --hash=sha256:207f24b1c6671788c596efe853c0583c89175ec2a3adc90e46caac1b241b1da0 \
-    --hash=sha256:8c506c79596569434e3c9f505179f07969b9abdd92c76df3a7d291dab9137352
+adafruit-circuitpython-pixelbuf==2.0.8 \
+    --hash=sha256:0369667139a631e165b2b64aa5acc3b6e6c3e2b10340369a9482e55d9fd9f603 \
+    --hash=sha256:22fb79f99c48cd61dd004aabdfe18bb7df1f1b982a11b2ff0cc144a196684459
     # via adafruit-circuitpython-neopixel
 adafruit-circuitpython-requests==4.1.10 \
     --hash=sha256:6a54aa39436e83e0dc75d60c861e5befa333bff265b947ea263156e64e467122 \
     --hash=sha256:a8657fe4b3a74c224e7365ebefa7742cc198373c1702bfc3f2b0ca3c4fd288b3
     # via adafruit-circuitpython-typing
-adafruit-circuitpython-simple-text-display==1.2.17 \
-    --hash=sha256:4a115630a7144cd366b3898171c7aa47ebda96b2ecdda9800daff3d1d79323a4 \
-    --hash=sha256:4c3b3a0b5c43827d1878734e2ee8d8917724edeec1b6cecf945e0bb147262c45
+adafruit-circuitpython-simple-text-display==1.2.18 \
+    --hash=sha256:85cde84fe4a0c6073c3d3342aa22dd1b88226ff7a368bc36de8a3d4cb49b9036 \
+    --hash=sha256:9f84fc59a2143a1c53b1a4e9caae7dacfb5cc025592625aeaaca0d493ec242f5
     # via adafruit-circuitpython-macropad
-adafruit-circuitpython-ticks==1.1.2 \
-    --hash=sha256:b780421d0037ec18733bbeef1937d8e67f6905c49e269dcf1ac91d5962bf71f4 \
-    --hash=sha256:f9e88cf26f4b4c90f149cabf4798dda4047d020a05067888d8203a8dd2873664
+adafruit-circuitpython-ticks==1.1.3 \
+    --hash=sha256:1eace10e37ca847b849c4c5314cd25c9ccf755ec34954f21e4215a501e845f21 \
+    --hash=sha256:d1c5472970437e63677b929796dbc2643e5e09bee44f03d7ad2424b3034370cc
     # via
     #   adafruit-circuitpython-debouncer
     #   adafruit-circuitpython-display-text
@@ -94,9 +94,9 @@ adafruit-circuitpython-typing==1.11.2 \
     #   adafruit-blinka
     #   adafruit-blinka-displayio
     #   adafruit-circuitpython-busdevice
-adafruit-platformdetect==3.77.0 \
-    --hash=sha256:93f599c21e7db2d92bc32ac69ba5063876404c4af87d11358863e62f407409be \
-    --hash=sha256:adce6386059637e92b4cb5d3430d016119cd3eb19f9276920c54515f3d798949
+adafruit-platformdetect==3.79.0 \
+    --hash=sha256:10e4dccaa72c2a0fcb64eab1482b55857264d667ae5481963a20786948a44b72 \
+    --hash=sha256:13f522c4ab92441600c3f47fd795b1610a646034922ecd2cbc1e207c64c3cf7f
     # via adafruit-blinka
 adafruit-pureio==1.1.11 \
     --hash=sha256:281ab2099372cc0decc26326918996cbf21b8eed694ec4764d51eefa029d324e \
@@ -126,7 +126,7 @@ sysv-ipc==1.1.0 \
     --hash=sha256:61190b934b0277f7a189092dcabceee8d9736fd73de90fd9b50ea69f0bac4723 \
     --hash=sha256:ff6e3c98d8aa3e1ae5378d86869c4699c76f94318705d08085c97fb010770a31
     # via adafruit-blinka
-typing-extensions==4.12.2 \
-    --hash=sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d \
-    --hash=sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8
+typing-extensions==4.13.2 \
+    --hash=sha256:a439e7c04b49fec3e5d3e2beaa21755cadbbdc391694e28ccdd36ca4a1408f8c \
+    --hash=sha256:e6c81219bd689f51865d9e372991c540bda33a0379d5573cddb9a3a23f7caaef
     # via adafruit-circuitpython-typing
