@@ -279,11 +279,6 @@ TRANSLATED_MUSICBRAINZ_WORK = {
         },
         {
             "id": MUSICBRAINZ_TRANSLATOR,
-            "credited_as": "Hye Young Im",
-            "role": "Translator",
-        },
-        {
-            "id": "985282e2-f33d-4e56-9344-be630f3bda54",
             "role": "Translator",
         },
     ],
@@ -796,10 +791,31 @@ def musicbrainz_add_aliases(macropad, aliases, index=None):
         else:
             write(macropad, alias["text"])
 
-        tab(macropad, 5)
-        macropad.keyboard.send(macropad.Keycode.SPACE)
-        time.sleep(0.1)
         tab(macropad, 3)
+
+        if alias["sort"] == "PASTE_FROM_CLIPBOARD":
+            paste(macropad)
+            if index:
+                write(macropad, f"{index}")
+            tab(macropad, 3)
+        elif alias["sort"] == "COPY":
+            tab(macropad, 2)
+            macropad.keyboard.send(macropad.Keycode.SPACE)
+            time.sleep(0.1)
+            tab(macropad, 3)
+        elif alias["sort"] == "GUESS":
+            tab(macropad, 1)
+            time.sleep(0.1)
+            macropad.keyboard.send(macropad.Keycode.SPACE)
+            time.sleep(0.1)
+            tab(macropad, 1)
+            macropad.keyboard.send(macropad.Keycode.SPACE)
+            time.sleep(0.1)
+            tab(macropad, 3)
+        else:
+            write(macropad, alias["text"])
+            tab(macropad, 3)
+
         # Reset the language list to the beginning as a precaution.
         macropad.keyboard.send(macropad.Keycode.A)
         macropad.keyboard.send(macropad.Keycode.TAB)
@@ -933,7 +949,7 @@ def musicbrainz_create_work(macropad, work, index):
                     "primary": a["primary"],
                 }
             )
-        musicbrainz_add_aliases(macropad, aliases)
+        musicbrainz_add_aliases(macropad, aliases, index)
 
 
 # Set the Artist credit for a MusicBrainz Release Group
@@ -1034,6 +1050,8 @@ while True:
                         original_identifiers = IDENTIFIERS[i].copy()
                     if i in ORIGINAL_MUSICBRAINZ_WORK_IDENTIFIERS:
                         original_identifiers.append(ORIGINAL_MUSICBRAINZ_WORK_IDENTIFIERS[i])
+                    if i in ORIGINAL_BOOKBRAINZ_WORK_IDENTIFIERS:
+                        original_identifiers.append(ORIGINAL_BOOKBRAINZ_WORK_IDENTIFIERS[i])
 
                     original_work = ORIGINAL_MUSICBRAINZ_WORK
                     original_work["identifiers"] = original_identifiers
@@ -1050,6 +1068,8 @@ while True:
                         translated_identifiers = IDENTIFIERS[i].copy()
                     if i in TRANSLATED_MUSICBRAINZ_WORK_IDENTIFIERS:
                         translated_identifiers.append(TRANSLATED_MUSICBRAINZ_WORK_IDENTIFIERS[i])
+                    if i in TRANSLATED_BOOKBRAINZ_WORK_IDENTIFIERS:
+                        translated_identifiers.append(TRANSLATED_BOOKBRAINZ_WORK_IDENTIFIERS[i])
 
                     translated_work = TRANSLATED_MUSICBRAINZ_WORK
                     translated_work["identifiers"] = translated_identifiers
