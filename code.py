@@ -54,9 +54,8 @@ from adafruit_macropad import MacroPad
 # Rotary Encoder -
 #
 
-VOLUME_START = 1
-# VOLUME_END = 10
-VOLUME_END = 1
+VOLUME_START = 2
+VOLUME_END = 14
 
 # Convert the indices to a string.
 RANGE = [str(i) for i in range(VOLUME_START, VOLUME_END + 1)]
@@ -80,13 +79,64 @@ RANGE = [str(i) for i in range(VOLUME_START, VOLUME_END + 1)]
 #     "13",
 # ]
 
+SUBTITLES = {
+    "2": {
+        0: {
+            "title": "",
+            "sort": "",
+        },
+        1: {
+            "title": "",
+        },
+        3: {
+            "title": "",
+        }
+    },
+    "3": {
+        0: {
+            "title": "",
+            "sort": "",
+        },
+        1: {
+            "title": "",
+        },
+        3: {
+            "title": "",
+        }
+    },
+    "4": {
+        0: {
+            "title": "",
+            "sort": "",
+        },
+        1: {
+            "title": "",
+        },
+        3: {
+            "title": "",
+        }
+    },
+    "5": {
+        0: {
+            "title": "",
+            "sort": "",
+        },
+        1: {
+            "title": "",
+        },
+        3: {
+            "title": "",
+        }
+    },
+}
+
 ORIGINAL_TITLE = {
-    "text": "鋼の錬金術師 |index|",
-    "sort": "COPY",  # Or GUESS
+    "text": "とんでもスキルで異世界放浪メシ |index| |subtitle|",
+    "sort": "とんでも スキル で い せかい ほうろう メシ |index| |subtitle|",  # Or GUESS
     "language": "Japanese",
 }
 
-ORIGINAL_WORK_TITLE_SORT = "COPY"
+ORIGINAL_WORK_TITLE_SORT = "とんでも スキル で い せかい ほうろう メシ |index| |subtitle|"
 TRANSLATED_WORK_TITLE_SORT = "COPY"
 
 ORIGINAL_WORK_DISAMBIGUATION_COMMENT = "light novel"
@@ -106,15 +156,30 @@ ORIGINAL_WORK_ALIASES = [
     # Quotation Marks:: “”
     #
     {
-        "text": "I’m a Translated Title, Vol. |index|",
+        "text": "Campfire Cooking in Another World With My Absurd Skill, Volume |index|: |subtitle|",
         "sort": "COPY",  # Or GUESS
         "language": "English",
         "primary": True,
     },
     {
-        "text": "Hepburn normalization |index|",
+        "text": "Campfire Cooking in Another World With My Absurd Skill, Volume |index|",
+        "sort": "COPY",  # Or GUESS
+        "language": "English",
+        "primary": False,
+    },
+    {
+        "text": "Tondemo Skill de Isekai Hourou Meshi |index| |subtitle|",
         "sort": "COPY",
         "language": "Japanese",
+        "primary": False,
+    },
+]
+
+TRANSLATED_WORK_ALIASES = [
+    {
+        "text": "Campfire Cooking in Another World With My Absurd Skill, Volume |index|",
+        "sort": "COPY",  # Or GUESS
+        "language": "English",
         "primary": False,
     },
 ]
@@ -139,8 +204,6 @@ BOOKBRAINZ_ADAPTER = None
 BOOKBRAINZ_LETTERER = None
 
 IDENTIFIERS = {
-    #  ["https://www.librarything.com/work/xxxxxxxx", "https://openlibrary.org/works/OLxxxxxxxxW"],
-    "1": ["", ""],
     "2": ["", ""],
     "3": ["", ""],
     "4": ["", ""],
@@ -150,47 +213,28 @@ IDENTIFIERS = {
     "8": ["", ""],
     "9": ["", ""],
     "10": ["", ""],
+    "11": ["", ""],
+    "12": ["", ""],
+    "13": ["", ""],
+    "14": ["", ""],
 }
 
-ORIGINAL_BOOKBRAINZ_WORK_IDENTIFIERS = {}
-TRANSLATED_BOOKBRAINZ_WORK_IDENTIFIERS = {}
+ORIGINAL_BOOKBRAINZ_WORK_IDENTIFIERS = {
+}
+TRANSLATED_BOOKBRAINZ_WORK_IDENTIFIERS = {
+}
 
 # Use the following snippet to format the items in a MusicBrainz series so that they can be copied and pasted here.
 # http get --headers [Accept "application/json"]  $"https://musicbrainz.org/ws/2/series/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx?inc=work-rels" | get relations | select attribute-values.number work.id | rename number id | each {|w| $"    \"($w.number)\": \"https://beta.musicbrainz.org/work/($w.id)\"," } | print --raw
 ORIGINAL_MUSICBRAINZ_WORK_IDENTIFIERS = {
-    "1": "",
-    "2": "",
-    "3": "",
-    "4": "",
-    "5": "",
-    "6": "",
-    "7": "",
-    "8": "",
-    "9": "",
-    "10": "",
 }
 
 # http get --headers [Accept "application/json"]  $"https://musicbrainz.org/ws/2/series/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx?inc=work-rels" | get relations | select attribute-values.number work.id | rename number id | each {|w| $"    \"($w.number)\": \"https://beta.musicbrainz.org/work/($w.id)\"," } | print --raw
 TRANSLATED_MUSICBRAINZ_WORK_IDENTIFIERS = {
-    "1": "",
-    "2": "",
-    "3": "",
-    "4": "",
-    "5": "",
-    "6": "",
-    "7": "",
-    "8": "",
-    "9": "",
-    "10": "",
 }
 
 ORIGINAL_BOOKBRAINZ_WORK = {
     "title": ORIGINAL_TITLE,
-    # {
-    #     # "text": "PASTE_FROM_CLIPBOARD",
-    #     "sort": ORIGINAL_WORK_TITLE_SORT,
-    #     "language": ORIGINAL_LANGUAGE,
-    # },
     "type": BOOKBRAINZ_WORK_TYPE,
     "language": ORIGINAL_LANGUAGE,
     "disambiguation": ORIGINAL_WORK_DISAMBIGUATION_COMMENT,
@@ -247,11 +291,6 @@ TAGS = ["fiction", "light novel"]
 
 ORIGINAL_MUSICBRAINZ_WORK = {
     "title": ORIGINAL_TITLE,
-    # {
-    #     # "text": "PASTE_FROM_CLIPBOARD",
-    #     "sort": ORIGINAL_WORK_TITLE_SORT,
-    #     "language": ORIGINAL_LANGUAGE,
-    # },
     "type": MUSICBRAINZ_WORK_TYPE,
     "language": ORIGINAL_LANGUAGE,
     "disambiguation": ORIGINAL_WORK_DISAMBIGUATION_COMMENT,
