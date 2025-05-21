@@ -103,6 +103,7 @@ ORIGINAL_WORK_ALIASES = [
     # Dash:: ‐
     # Ellipsis:: …
     # Multiplication Sign:: ×
+    # Quotation Marks:: “”
     #
     {
         "text": "I’m a Translated Title, Vol. |index|",
@@ -212,6 +213,7 @@ TRANSLATED_BOOKBRAINZ_WORK = {
     "type": BOOKBRAINZ_WORK_TYPE,
     "language": TRANSLATED_LANGUAGE,
     "disambiguation": TRANSLATED_WORK_DISAMBIGUATION_COMMENT,
+    "aliases": TRANSLATED_WORK_ALIASES,
     "series": BOOKBRAINZ_TRANSLATED_WORK_SERIES,
     "relationships": [
         {
@@ -270,6 +272,7 @@ TRANSLATED_MUSICBRAINZ_WORK = {
     "type": MUSICBRAINZ_WORK_TYPE,
     "language": TRANSLATED_LANGUAGE,
     "disambiguation": TRANSLATED_WORK_DISAMBIGUATION_COMMENT,
+    "aliases": TRANSLATED_WORK_ALIASES,
     "series": MUSICBRAINZ_TRANSLATED_WORK_SERIES,
     "artists": [
         {
@@ -461,8 +464,11 @@ def new_browser_tab(macropad, url):
 
 
 def bookbrainz_set_title(macropad, index, title):
+    subtitle = ""
+    if "subtitle" in title and title["subtitle"]:
+        subtitle = title["subtitle"]
     if "text" in title and title["text"]:
-        write(macropad, title["text"].replace("|index|", f"{index}"))
+        write(macropad, title["text"].replace("|index|", f"{index}").replace("|subtitle|", subtitle))
     else:
         paste(macropad)
         time.sleep(0.1)
@@ -483,8 +489,11 @@ def bookbrainz_set_title(macropad, index, title):
         time.sleep(1)
         tab(macropad, 2)
     else:
-        # error
-        pass
+        sort_subtitle = ""
+        if "sort_subtitle" in title and title["sort_subtitle"]:
+            sort_subtitle = title["sort_subtitle"]
+        write(macropad, title["sort"].replace("|index|", f"{index}").replace("|subtitle|", sort_subtitle))
+        tab(macropad, 3)
     time.sleep(0.2)
     write(macropad, title["language"])
     time.sleep(0.2)
@@ -647,10 +656,16 @@ def bookbrainz_create_work(macropad, work, index):
     if "aliases" in work and work["aliases"]:
         aliases = []
         for a in work["aliases"]:
+            subtitle = ""
+            if "subtitle" in a and a["subtitle"]:
+                subtitle = a["subtitle"]
+            sort_subtitle = ""
+            if "sort_subtitle" in a and a["sort_subtitle"]:
+                sort_subtitle = a["sort_subtitle"]
             aliases.append(
                 {
-                    "text": a["text"].replace("|index|", f"{index}"),
-                    "sort": a["sort"],
+                    "text": a["text"].replace("|index|", f"{index}").replace("|subtitle|", subtitle),
+                    "sort": a["sort"].replace("|index|", f"{index}").replace("|subtitle|", sort_subtitle),
                     "language": a["language"],
                     "primary": a["primary"],
                 }
@@ -813,7 +828,7 @@ def musicbrainz_add_aliases(macropad, aliases, index=None):
             time.sleep(0.1)
             tab(macropad, 3)
         else:
-            write(macropad, alias["text"])
+            write(macropad, alias["sort"])
             tab(macropad, 3)
 
         # Reset the language list to the beginning as a precaution.
@@ -901,8 +916,11 @@ def musicbrainz_create_work(macropad, work, index):
     macropad.keyboard.send(macropad.Keycode.ENTER)
     time.sleep(15)
     # I use the a user script which automatically focuses on the first input box in MusicBrainz.
+    subtitle = ""
+    if "subtitle" in work["title"] and work["title"]["subtitle"]:
+        subtitle = work["title"]["subtitle"]
     if "text" in work["title"] and work["title"]["text"]:
-        write(macropad, work["title"]["text"].replace("|index|", f"{index}"))
+        write(macropad, work["title"]["text"].replace("|index|", f"{index}").replace("|subtitle|", subtitle))
     else:
         macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.V)
         write(macropad, f"{index}")
@@ -941,10 +959,16 @@ def musicbrainz_create_work(macropad, work, index):
     if "aliases" in work and work["aliases"]:
         aliases = []
         for a in work["aliases"]:
+            subtitle = ""
+            if "subtitle" in a and a["subtitle"]:
+                subtitle = a["subtitle"]
+            sort_subtitle = ""
+            if "sort_subtitle" in a and a["sort_subtitle"]:
+                sort_subtitle = a["sort_subtitle"]
             aliases.append(
                 {
-                    "text": a["text"].replace("|index|", f"{index}"),
-                    "sort": a["sort"],
+                    "text": a["text"].replace("|index|", f"{index}").replace("|subtitle|", subtitle),
+                    "sort": a["sort"].replace("|index|", f"{index}").replace("|subtitle|", sort_subtitle),
                     "language": a["language"],
                     "primary": a["primary"],
                 }
@@ -1032,6 +1056,38 @@ def musicbrainz_create_release_group(macropad, release_group, index):
     time.sleep(15)
 
 
+# To have a special title sort in MusicBrainz, it's necessary to add an alias.
+aliases = []
+if "aliases" in ORIGINAL_MUSICBRAINZ_WORK:
+    aliases = ORIGINAL_MUSICBRAINZ_WORK["aliases"].copy()
+if ORIGINAL_MUSICBRAINZ_WORK["title"]["sort"] != "COPY" and ORIGINAL_MUSICBRAINZ_WORK["title"]["text"] != ORIGINAL_MUSICBRAINZ_WORK["title"]["sort"]:
+    aliases.append({
+        "text": ORIGINAL_MUSICBRAINZ_WORK["title"]["text"],
+        "sort": ORIGINAL_MUSICBRAINZ_WORK["title"]["sort"],
+        "language": ORIGINAL_MUSICBRAINZ_WORK["title"]["language"],
+        "primary": True,
+    })
+    if SUBTITLES:
+        subtitles = {}
+        for index, subtitle in SUBTITLES.items():
+            if 0 in subtitle and subtitle[0]:
+                subtitle[len(aliases)] = subtitle[0]
+            subtitles[index] = subtitle
+        SUBTITLES = subtitles
+ORIGINAL_MUSICBRAINZ_WORK["aliases"] = aliases
+
+aliases = []
+if "aliases" in TRANSLATED_MUSICBRAINZ_WORK:
+    aliases = TRANSLATED_MUSICBRAINZ_WORK["aliases"].copy()
+if TRANSLATED_MUSICBRAINZ_WORK["title"]["sort"] != "COPY" and TRANSLATED_MUSICBRAINZ_WORK["title"]["text"] != TRANSLATED_MUSICBRAINZ_WORK["title"]["sort"]:
+    aliases.append({
+        "text": TRANSLATED_MUSICBRAINZ_WORK["title"]["text"],
+        "sort": TRANSLATED_MUSICBRAINZ_WORK["title"]["sort"],
+        "language": TRANSLATED_MUSICBRAINZ_WORK["title"]["language"],
+        "primary": True,
+    })
+TRANSLATED_MUSICBRAINZ_WORK["aliases"] = aliases
+
 macropad = MacroPad()
 
 last_position = 0
@@ -1045,6 +1101,8 @@ while True:
                 for i in RANGE:
                     print(f"{i}")
 
+                    original_work = ORIGINAL_MUSICBRAINZ_WORK.copy()
+
                     original_identifiers = []
                     if i in IDENTIFIERS:
                         original_identifiers = IDENTIFIERS[i].copy()
@@ -1053,8 +1111,29 @@ while True:
                     if i in ORIGINAL_BOOKBRAINZ_WORK_IDENTIFIERS:
                         original_identifiers.append(ORIGINAL_BOOKBRAINZ_WORK_IDENTIFIERS[i])
 
-                    original_work = ORIGINAL_MUSICBRAINZ_WORK
                     original_work["identifiers"] = original_identifiers
+
+                    subtitle = ""
+                    if i in SUBTITLES and SUBTITLES[i] and 0 in SUBTITLES[i] and SUBTITLES[i][0] and "title" in SUBTITLES[i][0] and SUBTITLES[i][0]["title"]:
+                        subtitle = SUBTITLES[i][0]["title"]
+                    sort_subtitle = ""
+                    if i in SUBTITLES and SUBTITLES[i] and 0 in SUBTITLES[i] and SUBTITLES[i][0] and "sort" in SUBTITLES[i][0] and SUBTITLES[i][0]["sort"]:
+                        sort_subtitle = SUBTITLES[i][0]["sort"]
+
+                    original_work["title"]["subtitle"] = subtitle
+                    original_work["title"]["sort_subtitle"] = sort_subtitle
+
+                    aliases = []
+                    for alias_index, alias in enumerate(original_work["aliases"].copy(), start=1):
+                        alias["subtitle"] = ""
+                        alias["sort_subtitle"] = ""
+                        if i in SUBTITLES and SUBTITLES[i] and alias_index in SUBTITLES[i] and SUBTITLES[i][alias_index]:
+                            if "title" in SUBTITLES[i][alias_index] and SUBTITLES[i][alias_index]["title"]:
+                                alias["subtitle"] = SUBTITLES[i][alias_index]["title"]
+                            if "sort" in SUBTITLES[i][alias_index] and SUBTITLES[i][alias_index]["sort"]:
+                                alias["sort_subtitle"] = SUBTITLES[i][alias_index]["sort"]
+                        aliases.append(alias)
+                    original_work["aliases"] = aliases
 
                     musicbrainz_create_work(macropad, original_work, i)
 
@@ -1062,6 +1141,9 @@ while True:
                     copy_browser_url(macropad)
 
                     # Now create the translated work
+                    translated_work = TRANSLATED_MUSICBRAINZ_WORK.copy()
+                    translated_work["title"] = TRANSLATED_MUSICBRAINZ_WORK["title"].copy()
+                    translated_work["aliases"] = TRANSLATED_MUSICBRAINZ_WORK["aliases"].copy()
 
                     translated_identifiers = []
                     if i in IDENTIFIERS:
@@ -1071,9 +1153,18 @@ while True:
                     if i in TRANSLATED_BOOKBRAINZ_WORK_IDENTIFIERS:
                         translated_identifiers.append(TRANSLATED_BOOKBRAINZ_WORK_IDENTIFIERS[i])
 
-                    translated_work = TRANSLATED_MUSICBRAINZ_WORK
                     translated_work["identifiers"] = translated_identifiers
                     translated_work["translation_of"] = "PASTE_FROM_CLIPBOARD"
+
+                    subtitle = ""
+                    if i in SUBTITLES and SUBTITLES[i] and 1 in SUBTITLES[i] and SUBTITLES[i][1] and "title" in SUBTITLES[i][1] and SUBTITLES[i][1]["title"]:
+                        subtitle = SUBTITLES[i][1]["title"]
+                    sort_subtitle = ""
+                    if i in SUBTITLES and SUBTITLES[i] and 1 in SUBTITLES[i] and SUBTITLES[i][1] and "sort" in SUBTITLES[i][1] and SUBTITLES[i][1]["sort"]:
+                        sort_subtitle = SUBTITLES[i][1]["sort"]
+
+                    translated_work["title"]["subtitle"] = subtitle
+                    translated_work["title"]["sort_subtitle"] = sort_subtitle
 
                     musicbrainz_create_work(macropad, translated_work, i)
 
@@ -1101,8 +1192,31 @@ while True:
                     if i in ORIGINAL_MUSICBRAINZ_WORK_IDENTIFIERS:
                         original_identifiers.append(ORIGINAL_MUSICBRAINZ_WORK_IDENTIFIERS[i])
 
-                    original_work = ORIGINAL_BOOKBRAINZ_WORK
+                    original_work = ORIGINAL_BOOKBRAINZ_WORK.copy()
+
                     original_work["identifiers"] = original_identifiers
+
+                    subtitle = ""
+                    if i in SUBTITLES and SUBTITLES[i] and 0 in SUBTITLES[i] and SUBTITLES[i][0] and "title" in SUBTITLES[i][0] and SUBTITLES[i][0]["title"]:
+                        subtitle = SUBTITLES[i][0]["title"]
+                    sort_subtitle = ""
+                    if i in SUBTITLES and SUBTITLES[i] and 0 in SUBTITLES[i] and SUBTITLES[i][0] and "sort" in SUBTITLES[i][0] and SUBTITLES[i][0]["sort"]:
+                        sort_subtitle = SUBTITLES[i][0]["sort"]
+
+                    original_work["title"]["subtitle"] = subtitle
+                    original_work["title"]["sort_subtitle"] = sort_subtitle
+
+                    aliases = []
+                    for alias_index, alias in enumerate(original_work["aliases"].copy(), start=1):
+                        alias["subtitle"] = ""
+                        alias["sort_subtitle"] = ""
+                        if i in SUBTITLES and SUBTITLES[i] and alias_index in SUBTITLES[i] and SUBTITLES[i][alias_index]:
+                            if "title" in SUBTITLES[i][alias_index] and SUBTITLES[i][alias_index]["title"]:
+                                alias["subtitle"] = SUBTITLES[i][alias_index]["title"]
+                            if "sort" in SUBTITLES[i][alias_index] and SUBTITLES[i][alias_index]["sort"]:
+                                alias["sort_subtitle"] = SUBTITLES[i][alias_index]["sort"]
+                        aliases.append(alias)
+                    original_work["aliases"] = aliases
 
                     bookbrainz_create_work(macropad, original_work, i)
 
@@ -1117,12 +1231,23 @@ while True:
                     if i in TRANSLATED_MUSICBRAINZ_WORK_IDENTIFIERS:
                         translated_identifiers.append(TRANSLATED_MUSICBRAINZ_WORK_IDENTIFIERS[i])
 
-                    translated_work = TRANSLATED_BOOKBRAINZ_WORK
+                    translated_work = TRANSLATED_BOOKBRAINZ_WORK.copy()
+
                     translated_work["identifiers"] = translated_identifiers
                     translated_work["relationships"].append({
                         "role": "translation",
                         "id": "PASTE_FROM_CLIPBOARD",
                     })
+
+                    subtitle = ""
+                    if i in SUBTITLES and SUBTITLES[i] and 1 in SUBTITLES[i] and SUBTITLES[i][1] and "title" in SUBTITLES[i][1] and SUBTITLES[i][1]["title"]:
+                        subtitle = SUBTITLES[i][1]["title"]
+                    sort_subtitle = ""
+                    if i in SUBTITLES and SUBTITLES[i] and 1 in SUBTITLES[i] and SUBTITLES[i][1] and "sort" in SUBTITLES[i][1] and SUBTITLES[i][1]["sort"]:
+                        sort_subtitle = SUBTITLES[i][1]["sort"]
+
+                    translated_work["title"]["subtitle"] = subtitle
+                    translated_work["title"]["sort_subtitle"] = sort_subtitle
 
                     bookbrainz_create_work(macropad, translated_work, i)
 
