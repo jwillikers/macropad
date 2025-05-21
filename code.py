@@ -229,16 +229,16 @@ TRANSLATED_BOOKBRAINZ_WORK = {
             "id": BOOKBRAINZ_TRANSLATOR,
         },
         {
-            "role": "translator",
-            "id": "a1a64969-18ce-4925-bae8-c56963693858",
-        },
-        {
             "role": "adapter",
             "id": BOOKBRAINZ_ADAPTER,
         },
         {
             "role": "letterer",
             "id": BOOKBRAINZ_LETTERER,
+        },
+        {
+            "role": "translation",
+            "id": "PASTE_FROM_CLIPBOARD",
         },
     ],
 }
@@ -1234,10 +1234,6 @@ while True:
                     translated_work = TRANSLATED_BOOKBRAINZ_WORK.copy()
 
                     translated_work["identifiers"] = translated_identifiers
-                    translated_work["relationships"].append({
-                        "role": "translation",
-                        "id": "PASTE_FROM_CLIPBOARD",
-                    })
 
                     subtitle = ""
                     if i in SUBTITLES and SUBTITLES[i] and 1 in SUBTITLES[i] and SUBTITLES[i][1] and "title" in SUBTITLES[i][1] and SUBTITLES[i][1]["title"]:
