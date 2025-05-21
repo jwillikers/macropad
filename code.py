@@ -136,9 +136,6 @@ ORIGINAL_TITLE = {
     "language": "Japanese",
 }
 
-ORIGINAL_WORK_TITLE_SORT = "とんでも スキル で い せかい ほうろう メシ |index| |subtitle|"
-TRANSLATED_WORK_TITLE_SORT = "COPY"
-
 ORIGINAL_WORK_DISAMBIGUATION_COMMENT = "light novel"
 TRANSLATED_WORK_DISAMBIGUATION_COMMENT = "light novel, English"
 
