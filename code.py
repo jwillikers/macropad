@@ -190,17 +190,21 @@ MUSICBRAINZ_ORIGINAL_WORK_SERIES = ""
 MUSICBRAINZ_TRANSLATED_WORK_SERIES = ""
 MUSICBRAINZ_TRANSLATOR = ""
 
-BOOKBRAINZ_WORK_TYPE = "Novel"
+BOOKBRAINZ_WORK_TYPE = "manga" # Novel or manga
 
-BOOKBRAINZ_ORIGINAL_WORK_SERIES = ""
-BOOKBRAINZ_TRANSLATED_WORK_SERIES = ""
-BOOKBRAINZ_WRITER = ""
-BOOKBRAINZ_ILLUSTRATOR = ""
-BOOKBRAINZ_TRANSLATOR = ""
+BOOKBRAINZ_ORIGINAL_WORK_SERIES = "5e867fc1-8134-41d7-a78a-3a37a4ef5ddb"
+BOOKBRAINZ_ORIGINAL_WORK_SECOND_SERIES = "2770aac1-2e00-4e87-b101-3a1223c0c0bc"
+BOOKBRAINZ_WORK_SECOND_SERIES_OFFSET = 41
+BOOKBRAINZ_TRANSLATED_WORK_SERIES = "6deef979-9550-499f-b7f3-e72e0a48b8ec"
+BOOKBRAINZ_TRANSLATED_WORK_SECOND_SERIES = "fcaca2f0-4702-4a84-b458-59235df33945"
+BOOKBRAINZ_WRITER = "cfae7528-a044-43f3-966d-3c9165907e1a"
+BOOKBRAINZ_ILLUSTRATOR = "cfae7528-a044-43f3-966d-3c9165907e1a"
+BOOKBRAINZ_TRANSLATOR = "33eac350-7750-46f5-9c0b-f4759f60540f"
 BOOKBRAINZ_ADAPTER = None
-BOOKBRAINZ_LETTERER = None
+BOOKBRAINZ_LETTERER = "e1e850a9-dc4e-42eb-9110-92fbe64e6a8b"
 
 IDENTIFIERS = {
+    "1": ["", ""],
     "2": ["", ""],
     "3": ["", ""],
     "4": ["", ""],
@@ -214,6 +218,9 @@ IDENTIFIERS = {
     "12": ["", ""],
     "13": ["", ""],
     "14": ["", ""],
+    "15": ["", ""],
+    "16": ["", ""],
+    "17": ["", ""],
 }
 
 ORIGINAL_BOOKBRAINZ_WORK_IDENTIFIERS = {
@@ -237,6 +244,8 @@ ORIGINAL_BOOKBRAINZ_WORK = {
     "disambiguation": ORIGINAL_WORK_DISAMBIGUATION_COMMENT,
     "aliases": ORIGINAL_WORK_ALIASES,
     "series": BOOKBRAINZ_ORIGINAL_WORK_SERIES,
+    "second_series": BOOKBRAINZ_ORIGINAL_WORK_SECOND_SERIES,
+    "second_series_offset": BOOKBRAINZ_WORK_SECOND_SERIES_OFFSET,
     "relationships": [
         {
             "role": "writer",
@@ -256,6 +265,8 @@ TRANSLATED_BOOKBRAINZ_WORK = {
     "disambiguation": TRANSLATED_WORK_DISAMBIGUATION_COMMENT,
     "aliases": TRANSLATED_WORK_ALIASES,
     "series": BOOKBRAINZ_TRANSLATED_WORK_SERIES,
+    "second_series": BOOKBRAINZ_TRANSLATED_WORK_SECOND_SERIES,
+    "second_series_offset": BOOKBRAINZ_WORK_SECOND_SERIES_OFFSET,
     "relationships": [
         {
             "role": "writer",
@@ -270,12 +281,20 @@ TRANSLATED_BOOKBRAINZ_WORK = {
             "id": BOOKBRAINZ_TRANSLATOR,
         },
         {
+            "role": "translator",
+            "id": "0587a673-796e-421d-a3b1-9b9f15ffb24a",
+        },
+        {
             "role": "adapter",
             "id": BOOKBRAINZ_ADAPTER,
         },
         {
             "role": "letterer",
             "id": BOOKBRAINZ_LETTERER,
+        },
+        {
+            "role": "letterer",
+            "id": "9268a7af-2f90-49d8-91a1-9684620aaae9",
         },
         {
             "role": "translation",
@@ -529,6 +548,7 @@ def bookbrainz_set_title(macropad, index, title):
         if "sort_subtitle" in title and title["sort_subtitle"]:
             sort_subtitle = title["sort_subtitle"]
         write(macropad, title["sort"].replace("|index|", f"{index}").replace("|subtitle|", sort_subtitle))
+        time.sleep(1)
         tab(macropad, 3)
     time.sleep(0.2)
     write(macropad, title["language"])
@@ -584,49 +604,49 @@ def bookbrainz_add_aliases(macropad, aliases):
 
 def bookbrainz_add_identifiers(macropad, identifiers):
     macropad.keyboard.send(macropad.Keycode.SPACE)
-    time.sleep(0.6)
+    time.sleep(0.75)
     macropad.keyboard.send(macropad.Keycode.TAB)
-    time.sleep(0.1)
+    time.sleep(0.25)
     for index, identifier in enumerate(identifiers):
         write(macropad, identifier)
-        time.sleep(0.75)
+        time.sleep(1.25)
         tab(macropad, 4)
-        time.sleep(0.1)
+        time.sleep(0.25)
         if index < len(identifiers) - 1:
             macropad.keyboard.send(macropad.Keycode.SPACE)
-            time.sleep(0.2)
+            time.sleep(0.5)
         else:
             macropad.keyboard.send(macropad.Keycode.ESCAPE)
-            time.sleep(1)
+            time.sleep(1.25)
 
 
 def bookbrainz_set_work_type(macropad, work_type):
     write(macropad, work_type)
-    time.sleep(0.1)
+    time.sleep(0.2)
     if work_type == "Novel":
         macropad.keyboard.send(macropad.Keycode.DOWN_ARROW)
-        time.sleep(0.1)
+        time.sleep(0.2)
     macropad.keyboard.send(macropad.Keycode.ENTER)
-    time.sleep(0.1)
+    time.sleep(0.2)
 
 
 def bookbrainz_add_series(macropad, series, index):
     macropad.keyboard.send(macropad.Keycode.SPACE)
-    time.sleep(0.75)
-    macropad.keyboard.send(macropad.Keycode.TAB)
-    time.sleep(0.1)
-    write(macropad, series)
     time.sleep(1)
+    macropad.keyboard.send(macropad.Keycode.TAB)
+    time.sleep(0.25)
+    write(macropad, series)
+    time.sleep(4)
     tab(macropad, 3)
-    time.sleep(0.1)
+    time.sleep(0.25)
     write(macropad, "is part of")
-    time.sleep(0.1)
+    time.sleep(0.25)
     tab(macropad, 2)
-    time.sleep(0.1)
+    time.sleep(0.25)
     write(macropad, f"{index}")
-    time.sleep(0.1)
+    time.sleep(0.25)
     macropad.keyboard.send(macropad.Keycode.ENTER)
-    time.sleep(0.5)
+    time.sleep(1)
 
 
 BOOKBRAINZ_RELATIONSHIP_VERB = {
@@ -643,19 +663,19 @@ def bookbrainz_add_relationship(macropad, relationship):
     if "id" not in relationship or not relationship["id"] or "role" not in relationship or not relationship["role"]:
         return
     macropad.keyboard.send(macropad.Keycode.SPACE)
-    time.sleep(0.75)
+    time.sleep(1)
     macropad.keyboard.send(macropad.Keycode.TAB)
-    time.sleep(0.1)
+    time.sleep(0.25)
     if relationship["id"] == "PASTE_FROM_CLIPBOARD":
         paste(macropad)
     else:
         write(macropad, relationship["id"])
-    time.sleep(1)
+    time.sleep(4)
     tab(macropad, 3)
     write(macropad, BOOKBRAINZ_RELATIONSHIP_VERB[relationship["role"].lower()])
-    time.sleep(0.1)
+    time.sleep(0.25)
     macropad.keyboard.send(macropad.Keycode.ENTER)
-    time.sleep(0.6)
+    time.sleep(1)
 
 
 # original_work = {
@@ -708,24 +728,29 @@ def bookbrainz_create_work(macropad, work, index):
             )
         bookbrainz_add_aliases(macropad, aliases)
     macropad.keyboard.send(macropad.Keycode.TAB)
-    time.sleep(0.1)
+    time.sleep(0.2)
 
     if "identifiers" in work and work["identifiers"]:
         bookbrainz_add_identifiers(macropad, work["identifiers"])
     macropad.keyboard.send(macropad.Keycode.TAB)
-    time.sleep(0.1)
+    time.sleep(0.2)
 
     bookbrainz_set_work_type(macropad, work["type"])
     macropad.keyboard.send(macropad.Keycode.TAB)
-    time.sleep(0.1)
+    time.sleep(0.2)
     write(macropad, work["language"])
-    time.sleep(0.1)
+    time.sleep(0.2)
     macropad.keyboard.send(macropad.Keycode.ENTER)
-    time.sleep(0.1)
+    time.sleep(0.2)
     macropad.keyboard.send(macropad.Keycode.TAB)
-    time.sleep(0.1)
+    time.sleep(0.2)
     if "series" in work and work["series"]:
         bookbrainz_add_series(macropad, work["series"], index)
+    if "second_series" in work and work["second_series"]:
+        if "second_series_offset" in work and work["second_series_offset"]:
+            bookbrainz_add_series(macropad, work["second_series"], str(int(index) + work["second_series_offset"]))
+        else:
+            bookbrainz_add_series(macropad, work["second_series"], index)
     if "relationships" in work:
         for relationship in work["relationships"]:
             if relationship:
