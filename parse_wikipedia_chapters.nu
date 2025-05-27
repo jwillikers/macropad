@@ -1,6 +1,18 @@
 #!/usr/bin/env nu
 use std log
 
+def convert_ascii_to_unicode []: string -> string {
+  (
+    $in
+    | str replace --all "'" "’"
+    | str replace --all "-" "‐"
+    | str replace --all "..." "…"
+    | str replace --all " x " " × "
+    | str replace --all " X " " × "
+    # todo Double quotes
+  )
+}
+
 # Given a Wikipedia page, parse the chapters of a manga into a format suitable for use in the subtitle section of the macropad script.
 def main [
   wikipedia_page: string
@@ -26,7 +38,15 @@ def main [
       if ($chapter.kanji | is-empty) {
         $chapter | insert kana ""
       } else {
-        $chapter | insert kana ($chapter.kanji | ^kakasi -JH -KH -Ea -s -iutf8 -outf8)
+        $chapter | insert kana ($chapter.kanji | ^kakasi -JH -Ea -s -iutf8 -outf8)
+      }
+    }
+    | each {|chapter|
+      {
+          english: ($chapter.english | convert_ascii_to_unicode)
+          kanji: ($chapter.kanji | convert_ascii_to_unicode)
+          hepburn: ($chapter.hepburn | convert_ascii_to_unicode)
+          kana: ($chapter.kana | convert_ascii_to_unicode)
       }
     }
     | enumerate
@@ -48,6 +68,6 @@ def main [
   # }
 
   $chapters | reduce --fold '' {|chapter, acc|
-    $acc + $"  '($chapter.index)': {\n    0: {'title': '($chapter.title.kanji)', 'sort': '($chapter.title.kana)'},\n    '1': {'title': '($chapter.title.english)'},\n    '2': {'title': '($chapter.title.hepburn)'},\n  },\n"
+    $acc + $"  '($chapter.index)': {\n    '0': {'title': '($chapter.title.kanji)', 'sort': '($chapter.title.kana)'},\n    '1': {'title': '($chapter.title.english)'},\n    '2': {'title': '($chapter.title.hepburn)'},\n  },\n"
   }
 }
