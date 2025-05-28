@@ -651,8 +651,11 @@ def bookbrainz_add_series(macropad, series, index):
 
 BOOKBRAINZ_RELATIONSHIP_VERB = {
     "adapter": "adapted",
+    "edition": "contains",
     "illustrator": "illustrated",
     "letterer": "lettered",
+    "provided story for": "provided story for",
+    "revisor": "revised",
     "translation": "is a translation of",
     "translator": "translated",
     "writer": "wrote",
