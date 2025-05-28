@@ -209,23 +209,23 @@ TRANSLATED_EDITIONS = {
 }
 
 IDENTIFIERS = {
-    "1": ["", ""],
-    "2": ["", ""],
-    "3": ["", ""],
-    "4": ["", ""],
-    "5": ["", ""],
-    "6": ["", ""],
-    "7": ["", ""],
-    "8": ["", ""],
-    "9": ["", ""],
-    "10": ["", ""],
-    "11": ["", ""],
-    "12": ["", ""],
-    "13": ["", ""],
-    "14": ["", ""],
-    "15": ["", ""],
-    "16": ["", ""],
-    "17": ["", ""],
+    # "1": ["", ""],
+    # "2": ["", ""],
+    # "3": ["", ""],
+    # "4": ["", ""],
+    # "5": ["", ""],
+    # "6": ["", ""],
+    # "7": ["", ""],
+    # "8": ["", ""],
+    # "9": ["", ""],
+    # "10": ["", ""],
+    # "11": ["", ""],
+    # "12": ["", ""],
+    # "13": ["", ""],
+    # "14": ["", ""],
+    # "15": ["", ""],
+    # "16": ["", ""],
+    # "17": ["", ""],
 }
 
 ORIGINAL_BOOKBRAINZ_WORK_IDENTIFIERS = {
@@ -286,10 +286,6 @@ TRANSLATED_BOOKBRAINZ_WORK = {
             "id": BOOKBRAINZ_TRANSLATOR,
         },
         {
-            "role": "translator",
-            "id": "0587a673-796e-421d-a3b1-9b9f15ffb24a",
-        },
-        {
             "role": "adapter",
             "id": BOOKBRAINZ_ADAPTER,
         },
@@ -297,10 +293,10 @@ TRANSLATED_BOOKBRAINZ_WORK = {
             "role": "letterer",
             "id": BOOKBRAINZ_LETTERER,
         },
-        {
-            "role": "letterer",
-            "id": "9268a7af-2f90-49d8-91a1-9684620aaae9",
-        },
+        # {
+        #     "role": "letterer",
+        #     "id": "d52c8c63-9e03-47b5-b6fa-10b2abec6131", # Madeleine Jose
+        # },
         {
             "role": "translation",
             "id": "PASTE_FROM_CLIPBOARD",
