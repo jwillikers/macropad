@@ -269,7 +269,7 @@ TRANSLATED_BOOKBRAINZ_WORK = {
     "second_series_offset": BOOKBRAINZ_WORK_SECOND_SERIES_OFFSET,
     "relationships": [
         {
-            "role": "writer",
+            "role": "provided story for",
             "id": BOOKBRAINZ_WRITER,
         },
         {
