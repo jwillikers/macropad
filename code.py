@@ -1346,6 +1346,12 @@ while True:
 
                     bookbrainz_create_work(macropad, translated_work, i)
 
+                    # Close the two Browser tabs
+                    macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.W)
+                    time.sleep(0.75)
+                    macropad.keyboard.send(macropad.Keycode.CONTROL, macropad.Keycode.W)
+                    time.sleep(0.75)
+
                     # Restore the clipboard contents before continuing
                     clipboard_select(macropad, 1)
                 print("Complete")
