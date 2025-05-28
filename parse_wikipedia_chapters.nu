@@ -13,6 +13,14 @@ def convert_ascii_to_unicode []: string -> string {
   )
 }
 
+# Example volume lines:
+# VolumeNumber    = 1
+
+# Example chapter lines
+# ' *03. {{nihongo|"What One Must Do"|自分がやるべきこと|Jibun ga Yarubeki koto}}'
+# '|{{nihongo|"Happy End"|ハッピーエンド|Happīendo}}'
+# '|"MEMe"'
+
 # Given a Wikipedia page, parse the chapters of a manga into a format suitable for use in the subtitle section of the macropad script.
 def main [
   wikipedia_page: string
@@ -23,20 +31,40 @@ def main [
     http get $"https://en.wikipedia.org/w/api.php?action=parse&page=($wikipedia_page)&contentmodel=wikitext&prop=wikitext&format=json"
     | get parse.wikitext.*
     | lines --skip-empty
-    | filter {|line| ($line | str starts-with '|{{nihongo|') or ($line | str starts-with '|"')}
+    # | filter {|line| ($line | str starts-with '|{{nihongo|') or ($line | str starts-with '|"')}
+    | filter {|line| $line =~ '^(?:\s*\*[0-9]+\.\s+)|(?:\|)\{\{nihongo\|' or ($line | str starts-with '|"')}
     | each {|line|
-      if ($line | str starts-with '|"') {
-        let title = ($line | str trim --left --char '|' | str trim --char '"')
-        {
-          english: $title
-          kanji: $title
-          hepburn: $title
-        }
+      log debug $"($line)"
+      if ($line | str contains "{{nihongo") {
+        $line | parse --regex '((?P<index>\s*\*[0-9]+\.\s+)|(?:\|))\{\{nihongo\|"(?P<english>.+)"(?:\|(?P<kanji>.+)\|(?P<hepburn>.+)\}\}){0,1}' | first
       } else {
-        $line | parse --regex '\|\{\{nihongo\|"(?P<english>.+)"(?:\|(?P<kanji>.+)\|(?P<hepburn>.+)\}\}){0,1}' | first
+        let title = ($line | str trim --left --char '|' | str trim --char '"')
+        let title = $line | parse --regex '(?P<index>\s*\*[0-9]+\.\s+){0,1}"{0,1}(?P<english>.+)"{0,1}' | first
+        let chapter = {
+          english: $title.english
+          kanji: $title.english
+          hepburn: $title.english
+        }
+        if "index" in $title and ($title.index | is-not-empty) {
+          $chapter | insert index $title.index
+        } else {
+          $chapter
+        }
       }
     }
-    | each {|chapter|
+  )
+  let chapters = (
+    $chapters | each {|chapter|
+      if "index" in $chapter and ($chapter.index | is-not-empty) {
+        $chapter | update index ($chapter.index | str trim | str trim --left --char '*' | str trim --right --char '.' | into int)
+      } else {
+        $chapter
+      }
+    }
+  )
+  log debug $"($chapters)"
+  let chapters = (
+    $chapters | each {|chapter|
       if ($chapter.kanji | is-empty) {
         $chapter | insert kana ""
       } else {
@@ -51,8 +79,30 @@ def main [
           kana: ($chapter.kana | convert_ascii_to_unicode)
       }
     }
+  )
+  let offset = (
+    let chapters_with_indices = (
+      $chapters | filter {|chapter|
+        "index" in $chapter and ($chapter.index | is-not-empty)
+      }
+    );
+    if ($chapters_with_indices | is-empty) {
+      1
+    } else {
+      $chapters_with_indices | first | get index
+    }
+  )
+  let chapters = (
+    $chapters
     | enumerate
-    | update index {|i| $i.index + 1}
+    | update index {|i| $i.index + $offset}
+    | each {|chapter|
+      if "index" in $chapter.item and ($chapter.item.index | is-not-empty) {
+        $chapter | update index $chapter.item.index
+      } else {
+        $chapter
+      }
+    }
     | rename index title
   )
 

@@ -1331,12 +1331,10 @@ while True:
                         sort_subtitle = SUBTITLES[i][1]["sort"]
 
                     if i in TRANSLATED_EDITIONS and TRANSLATED_EDITIONS[i]:
-                        translated_work["relationships"] = translated_work["relationships"].copy().append(
-                        {
+                        translated_work["relationships"].append({
                             "role": "edition",
                             "id": TRANSLATED_EDITIONS[i],
-                        },
-                    )
+                        })
 
                     translated_work["title"]["subtitle"] = subtitle
                     translated_work["title"]["sort_subtitle"] = sort_subtitle
