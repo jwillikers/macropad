@@ -203,6 +203,11 @@ BOOKBRAINZ_TRANSLATOR = "33eac350-7750-46f5-9c0b-f4759f60540f"
 BOOKBRAINZ_ADAPTER = None
 BOOKBRAINZ_LETTERER = "e1e850a9-dc4e-42eb-9110-92fbe64e6a8b"
 
+TRANSLATED_EDITIONS = {
+    # "1": "xxxx",
+    # "2": "",
+}
+
 IDENTIFIERS = {
     "1": ["", ""],
     "2": ["", ""],
@@ -1328,6 +1333,14 @@ while True:
                     sort_subtitle = ""
                     if i in SUBTITLES and SUBTITLES[i] and 1 in SUBTITLES[i] and SUBTITLES[i][1] and "sort" in SUBTITLES[i][1] and SUBTITLES[i][1]["sort"]:
                         sort_subtitle = SUBTITLES[i][1]["sort"]
+
+                    if i in TRANSLATED_EDITIONS and TRANSLATED_EDITIONS[i]:
+                        translated_work["relationships"] = translated_work["relationships"].copy().append(
+                        {
+                            "role": "edition",
+                            "id": TRANSLATED_EDITIONS[i],
+                        },
+                    )
 
                     translated_work["title"]["subtitle"] = subtitle
                     translated_work["title"]["sort_subtitle"] = sort_subtitle
