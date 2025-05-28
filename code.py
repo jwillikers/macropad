@@ -535,20 +535,20 @@ def bookbrainz_set_title(macropad, index, title):
         tab(macropad, 2)
         time.sleep(0.5)
         macropad.keyboard.send(macropad.Keycode.SPACE)
-        time.sleep(1)
+        time.sleep(2)
         macropad.keyboard.send(macropad.Keycode.TAB)
     elif title["sort"] == "GUESS":
         macropad.keyboard.send(macropad.Keycode.TAB)
         time.sleep(0.5)
         macropad.keyboard.send(macropad.Keycode.SPACE)
-        time.sleep(1)
+        time.sleep(2)
         tab(macropad, 2)
     else:
         sort_subtitle = ""
         if "sort_subtitle" in title and title["sort_subtitle"]:
             sort_subtitle = title["sort_subtitle"]
         write(macropad, title["sort"].replace("|index|", f"{index}").replace("|subtitle|", sort_subtitle))
-        time.sleep(1)
+        time.sleep(2)
         tab(macropad, 3)
     time.sleep(0.2)
     write(macropad, title["language"])
@@ -700,7 +700,7 @@ def bookbrainz_add_relationship(macropad, relationship):
 def bookbrainz_create_work(macropad, work, index):
     new_browser_tab(macropad, BOOKBRAINZ_CREATE_WORK_URL)
     tab(macropad, 11)
-    time.sleep(0.1)
+    time.sleep(1)
     bookbrainz_set_title(macropad, index, work["title"])
     macropad.keyboard.send(macropad.Keycode.TAB)
     time.sleep(0.1)
@@ -762,7 +762,7 @@ def bookbrainz_create_work(macropad, work, index):
     macropad.keyboard.send(macropad.Keycode.ENTER)
 
     # Wait for the original work to be created
-    time.sleep(16)
+    time.sleep(20)
 
 
 def musicbrainz_add_series(macropad, series, index):

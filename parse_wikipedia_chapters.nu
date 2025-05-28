@@ -16,6 +16,8 @@ def convert_ascii_to_unicode []: string -> string {
 # Given a Wikipedia page, parse the chapters of a manga into a format suitable for use in the subtitle section of the macropad script.
 def main [
   wikipedia_page: string
+  skip: int = 0 # Skip this many chapters
+  take: int = 100 # Only take this many chapters after skipping
 ] {
   let chapters = (
     http get $"https://en.wikipedia.org/w/api.php?action=parse&page=($wikipedia_page)&contentmodel=wikitext&prop=wikitext&format=json"
@@ -67,7 +69,7 @@ def main [
   #   },
   # }
 
-  $chapters | reduce --fold '' {|chapter, acc|
-    $acc + $"  '($chapter.index)': {\n    '0': {'title': '($chapter.title.kanji)', 'sort': '($chapter.title.kana)'},\n    '1': {'title': '($chapter.title.english)'},\n    '2': {'title': '($chapter.title.hepburn)'},\n  },\n"
+  $chapters | skip $skip | take $take | reduce --fold '' {|chapter, acc|
+    $acc + $"  '($chapter.index)': {\n    0: {'title': '($chapter.title.kanji)', 'sort': '($chapter.title.kana)'},\n    1: {'title': '($chapter.title.english)'},\n    2: {'title': '($chapter.title.hepburn)'},\n  },\n"
   }
 }
