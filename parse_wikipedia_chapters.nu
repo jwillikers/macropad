@@ -13,6 +13,26 @@ def convert_ascii_to_unicode []: string -> string {
   )
 }
 
+def kanji_into_kana []: any -> string {
+  let kanji = $in
+  let result = (
+  if ($kanji | describe) == "binary" {
+    do {$kanji | encode utf8 | ^kakasi -JH -s -iutf8 -outf8} | complete
+  } else {
+    do {$kanji | ^kakasi -JH -s -iutf8 -outf8} | complete
+  }
+  )
+  if $result.exit_code != 0 {
+    log info $"Error running '($kanji) | ^kakasi -JH -s -iutf8 -outf8'\nstderr: ($result.stderr)\nstdout: ($result.stdout)"
+    return ""
+  }
+  if ($result.stdout | describe) == "binary" {
+    $result.stdout | decode utf8
+  } else {
+    $result.stdout
+  }
+}
+
 # Example volume lines:
 # VolumeNumber    = 1
 
@@ -41,9 +61,9 @@ def main [
         let title = ($line | str trim --left --char '|' | str trim --char '"')
         let title = $line | parse --regex '(?P<index>\s*\*[0-9]+\.\s+){0,1}"{0,1}(?P<english>.+)"{0,1}' | first
         let chapter = {
-          english: $title.english
-          kanji: $title.english
-          hepburn: $title.english
+          english: ($title.english | str trim --char '"')
+          kanji: ($title.english | str trim --char '"')
+          hepburn: ($title.english | str trim --char '"')
         }
         if "index" in $title and ($title.index | is-not-empty) {
           $chapter | insert index $title.index
@@ -68,7 +88,21 @@ def main [
       if ($chapter.kanji | is-empty) {
         $chapter | insert kana ""
       } else {
-        $chapter | insert kana ($chapter.kanji | ^kakasi -JH -Ea -s -iutf8 -outf8)
+        $chapter | insert kana ($chapter.kanji | kanji_into_kana | (
+          let input = $in;
+          let input = (
+            if ($input | str starts-with '[') {
+              $input | str replace '[' '' | str replace ']' ''
+            } else {
+              $input
+            }
+          );
+          if ($input | str starts-with '【') {
+            $input | str replace '【' '' | str replace '】' ''
+          } else {
+            $input
+          }
+        ))
       }
     }
     | each {|chapter|
@@ -119,7 +153,8 @@ def main [
   #   },
   # }
 
-  $chapters | skip $skip | take $take | reduce --fold '' {|chapter, acc|
+  # $chapters | skip $skip | take $take | reduce --fold '' {|chapter, acc|
+  $chapters | reduce --fold '' {|chapter, acc|
     $acc + $"  '($chapter.index)': {\n    0: {'title': '($chapter.title.kanji)', 'sort': '($chapter.title.kana)'},\n    1: {'title': '($chapter.title.english)'},\n    2: {'title': '($chapter.title.hepburn)'},\n  },\n"
   }
 }
